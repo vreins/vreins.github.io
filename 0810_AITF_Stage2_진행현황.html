@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>운영2센터 AI 추진 TF Stage2 — 진행현황 보고 (2026.08.10)</title>
+<style>
+  /* ===== VNTG brand tokens (vntg-email-template) ===== */
+  :root{
+    color-scheme: light;
+    --page:#F3F4F6; --surface:#FFFFFF; --surface2:#F9FAFB;
+    --ink:#111827; --ink2:#374151; --muted:#6B7280;
+    --grid:#E5E7EB; --base:#D1D5DB; --ring:#E5E7EB;
+    --s1:#0248FF;                /* VNTG Primary */
+    --s2:#D97706;                /* 경고 */
+    --s3:#059669;                /* 정상·완료 */
+    --track:#DBEAFE;             /* primary tint */
+    --track-g:#D1FAE5; --track-r:#FEE2E2; --track-n:#E5E7EB;
+    --good:#059669; --warn:#D97706; --serious:#D97706; --crit:#DC2626; --info:#0248FF;
+    --good-ink:#047857;
+  }
+  :root[data-theme="dark"]{
+    color-scheme: dark;
+    --page:#0B0F17; --surface:#111827; --surface2:#1B2333;
+    --ink:#F9FAFB; --ink2:#D1D5DB; --muted:#9CA3AF;
+    --grid:#1F2937; --base:#374151; --ring:#263141;
+    --s1:#6B9BFF; --s2:#FBBF24; --s3:#34D399;
+    --track:#1E3A8A;
+    --track-g:#064E3B; --track-r:#7F1D1D; --track-n:#374151;
+    --good:#34D399; --warn:#FBBF24; --serious:#FBBF24; --crit:#F87171; --info:#6B9BFF;
+    --good-ink:#34D399;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:where(:not([data-theme="light"])){
+      color-scheme: dark;
+      --page:#0B0F17; --surface:#111827; --surface2:#1B2333;
+      --ink:#F9FAFB; --ink2:#D1D5DB; --muted:#9CA3AF;
+      --grid:#1F2937; --base:#374151; --ring:#263141;
+      --s1:#6B9BFF; --s2:#FBBF24; --s3:#34D399;
+      --track:#1E3A8A; --track-g:#064E3B; --track-r:#7F1D1D; --track-n:#374151;
+      --good:#34D399; --warn:#FBBF24; --serious:#FBBF24; --crit:#F87171; --info:#6B9BFF;
+      --good-ink:#34D399;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--page); color:var(--ink);
+    font-family:'Malgun Gothic','Apple SD Gothic Neo','Segoe UI',Arial,sans-serif;
+    font-size:13px; line-height:1.55; -webkit-font-smoothing:antialiased;
+  }
+  /* VNTG 텍스트 로고 */
+  .vlogo{font-size:20px;font-weight:700;color:var(--s1);letter-spacing:1px;line-height:1;margin-bottom:8px}
+  .wrap{max-width:1180px;margin:0 auto;padding:24px 20px 56px}
+
+  /* ---------- header ---------- */
+  header.top{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
+    border-bottom:1px solid var(--base); padding-bottom:12px; margin-bottom:16px; flex-wrap:wrap}
+  .eyebrow{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  h1{margin:4px 0 2px;font-size:23px;font-weight:700;letter-spacing:-.01em}
+  .sub{color:var(--ink2);font-size:12.5px}
+  .meta{text-align:right;font-size:12px;color:var(--ink2);line-height:1.7}
+  .meta b{color:var(--ink)}
+  .themebtn{margin-top:6px;font:inherit;font-size:11px;padding:3px 9px;border-radius:999px;
+    border:1px solid var(--ring);background:var(--surface);color:var(--ink2);cursor:pointer}
+
+  /* ---------- layout ---------- */
+  .card{background:var(--surface);border:1px solid var(--ring);border-radius:8px;padding:16px 18px;margin-bottom:14px;
+    position:relative;overflow:hidden}
+  .card.brandbar::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--s1)}
+  .card.brandbar{padding-top:22px}
+  .card > h2{margin:0 0 2px;font-size:14.5px;font-weight:700;letter-spacing:-.01em}
+  .card > h2 .n{color:var(--s1);font-weight:700;margin-right:6px}
+  .card > .hint{margin:0 0 14px;font-size:11.5px;color:var(--muted)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  @media (max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+
+  /* ---------- hero ---------- */
+  .hero{display:grid;grid-template-columns:minmax(230px,292px) 1fr;gap:24px;align-items:center}
+  @media (max-width:760px){.hero{grid-template-columns:1fr}}
+  .heronum{font-size:60px;font-weight:700;line-height:1;letter-spacing:-.03em}
+  .heronum span{font-size:26px;font-weight:600;color:var(--ink2)}
+  .herolabel{font-size:12px;color:var(--ink2);margin-top:6px}
+  .herofoot{font-size:11px;color:var(--muted);margin-top:8px}
+  .tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--grid);
+    border:1px solid var(--grid);border-radius:8px;overflow:hidden}
+  @media (max-width:760px){.tiles{grid-template-columns:repeat(2,1fr)}}
+  .tile{background:var(--surface);padding:12px 14px}
+  .tile .tl{font-size:11px;color:var(--muted);margin-bottom:4px}
+  .tile .tv{font-size:21px;font-weight:700;letter-spacing:-.02em}
+  .tile .td{font-size:11px;color:var(--ink2);margin-top:2px}
+
+  /* ---------- status chips ---------- */
+  .chip{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:600;
+    padding:2px 8px;border-radius:999px;border:1px solid var(--ring);color:var(--ink);white-space:nowrap}
+  .dot{width:8px;height:8px;border-radius:50%;flex:none}
+  .ico{font-size:10px;line-height:1}
+  .st-good .dot{background:var(--good)} .st-warn .dot{background:var(--warn)}
+  .st-ser .dot{background:var(--serious)} .st-crit .dot{background:var(--crit)}
+  .st-wait .dot{background:var(--muted)} .st-info .dot{background:var(--info)}
+
+  /* ---------- meters ---------- */
+  .meters{display:flex;flex-direction:column;gap:15px}
+  .m{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:baseline}
+  .m .mname{font-size:13px;font-weight:600}
+  .m .mname small{font-weight:400;color:var(--muted);margin-left:6px;font-size:11px}
+  .m .mval{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+  .track{grid-column:1/-1;height:9px;border-radius:5px;background:var(--track);overflow:hidden;position:relative}
+  .track.tg{background:var(--track-g)} .track.tr{background:var(--track-r)} .track.tn{background:var(--track-n)}
+  .fill{height:100%;border-radius:5px}
+  .m .mnote{grid-column:1/-1;font-size:11.5px;color:var(--ink2)}
+
+  /* ---------- timeline ---------- */
+  .tlwrap{overflow-x:auto}
+  table.tl{width:100%;border-collapse:collapse;font-size:11.5px;min-width:640px}
+  table.tl th{font-weight:600;color:var(--muted);font-size:11px;padding:0 0 6px;text-align:center;
+    border-bottom:1px solid var(--grid)}
+  table.tl th.rowh{text-align:left;width:132px}
+  table.tl td{padding:5px 2px;border-bottom:1px solid var(--grid);vertical-align:middle}
+  table.tl td.rowh{font-weight:600;color:var(--ink);font-size:12px;padding-left:0}
+  .bar{height:14px;border-radius:4px;display:block;position:relative}
+  .bar.plan{background:var(--track)}
+  .bar em{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+    font-style:normal;font-size:10px;font-weight:700;color:#fff}
+  .bar.plan em{color:var(--ink2)}
+  .now{position:relative}
+  .nowline{font-size:10.5px;color:var(--s2);font-weight:700;text-align:center;padding-top:4px}
+
+  /* ---------- tables ---------- */
+  table.d{width:100%;border-collapse:collapse;font-size:12px}
+  table.d th{text-align:left;font-size:11px;color:var(--muted);font-weight:600;
+    padding:6px 8px;border-bottom:1px solid var(--base);white-space:nowrap}
+  table.d td{padding:8px;border-bottom:1px solid var(--grid);vertical-align:top}
+  table.d tr:last-child td{border-bottom:none}
+  table.d td.num{font-variant-numeric:tabular-nums;font-weight:700;white-space:nowrap}
+  .who{color:var(--ink2);font-size:11.5px}
+
+  /* ---------- content cards ---------- */
+  .doc{border:1px solid var(--ring);border-radius:8px;padding:14px;background:var(--surface2)}
+  .doc h3{margin:0 0 2px;font-size:13.5px;font-weight:700}
+  .doc .dmeta{font-size:11px;color:var(--muted);margin-bottom:10px}
+  .doc ol{margin:0;padding-left:17px}
+  .doc ol li{margin-bottom:5px;font-size:12px}
+  .doc ol li b{font-weight:600}
+  .doc .rest{margin-top:11px;padding-top:10px;border-top:1px dashed var(--grid);font-size:11.5px;color:var(--ink2)}
+  .doc .rest b{color:var(--ink);font-weight:600}
+  .doc.planned{border-style:dashed;border-color:var(--base);margin-top:14px;background:var(--surface)}
+  .doc.planned ol{columns:2;column-gap:26px}
+  @media (max-width:760px){.doc.planned ol{columns:1}}
+  .doc.planned ol li{break-inside:avoid}
+  /* ---------- vReins 브랜드 블록 ---------- */
+  .vr{margin-top:16px;border:1px solid var(--s1);border-radius:8px;overflow:hidden}
+  .vr .vrh{background:var(--s1);padding:11px 16px;color:#FFFFFF}
+  .vr .vrw{font-size:19px;font-weight:700;letter-spacing:.5px;line-height:1.1}
+  .vr .vrt{font-size:10px;letter-spacing:.16em;opacity:.85;margin-top:3px;text-transform:uppercase}
+  .vr .vrb{padding:14px 16px;background:var(--track)}
+  .vr .slogan{font-size:14.5px;font-weight:700;color:var(--ink);margin-bottom:2px}
+  .vr .slogan-en{font-size:11px;color:var(--ink2);font-style:italic;margin-bottom:10px}
+  .vr p{margin:0 0 10px;font-size:12px;color:var(--ink2)}
+  .vr .flow{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 11px;font-size:11.5px;font-weight:600}
+  .vr .flow span.st{background:var(--surface);border:1px solid var(--s1);border-radius:5px;padding:3px 9px}
+  .vr .flow span.ar{color:var(--s1)}
+  .vr .kv{display:grid;grid-template-columns:74px 1fr;gap:4px 10px;font-size:11.5px}
+  .vr .kv b{color:var(--muted);font-weight:600;font-size:10.5px;padding-top:2px}
+  .vr .lnk{margin-top:11px;padding-top:9px;border-top:1px solid var(--base);font-size:11.5px}
+  .vr .lnk a{color:var(--s1);font-weight:700;text-decoration:none}
+  .doc .pre{margin-top:11px;padding:8px 10px;border-radius:6px;background:var(--track);border-left:3px solid var(--s1);font-size:11.5px;font-weight:600}
+  .tags{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0 0}
+  .tag{font-size:10.5px;padding:2px 7px;border-radius:4px;background:var(--track);color:var(--ink);font-weight:600}
+  .mo{background:var(--surface)}
+
+  /* ---------- issues ---------- */
+  .iss{display:flex;flex-direction:column;gap:0}
+  .iss .row{display:grid;grid-template-columns:22px 1fr 150px;gap:12px;padding:11px 0;
+    border-bottom:1px solid var(--grid);align-items:start}
+  .iss .row:last-child{border-bottom:none}
+  @media (max-width:760px){.iss .row{grid-template-columns:22px 1fr}.iss .ask{grid-column:2}}
+  .iss .no{font-size:12px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  .iss .t{font-size:12.5px;font-weight:600;margin-bottom:3px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .iss .b{font-size:11.5px;color:var(--ink2)}
+  .iss .ask{font-size:11.5px;color:var(--ink)}
+  .iss .ask b{display:block;font-size:10px;color:var(--muted);font-weight:600;letter-spacing:.06em;margin-bottom:2px}
+
+  /* ---------- plan ---------- */
+  .plan3{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--grid);
+    border:1px solid var(--grid);border-radius:8px;overflow:hidden}
+  @media (max-width:760px){.plan3{grid-template-columns:1fr}}
+  .mo{background:var(--surface);padding:14px}
+  .mo .mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px}
+  .mo .mm{font-size:15px;font-weight:700}
+  .mo ul{margin:0;padding-left:16px}
+  .mo ul li{font-size:11.8px;margin-bottom:5px;color:var(--ink)}
+  .mo ul li small{display:block;color:var(--muted);font-size:10.5px}
+  .gate{margin-top:10px;padding:7px 9px;border-radius:6px;background:var(--track);border-left:3px solid var(--s1);font-size:11px;font-weight:600}
+
+  footer{margin-top:20px;padding-top:12px;border-top:1px solid var(--grid);font-size:10.5px;color:var(--muted)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;color:var(--ink2);margin-bottom:12px}
+  .legend .li{display:inline-flex;align-items:center;gap:5px}
+  .sw{width:11px;height:11px;border-radius:3px;flex:none;box-shadow:0 0 0 1px var(--surface) inset}
+
+  @media print{
+    body{background:#FFFFFF;font-size:10.5px}
+    .wrap{max-width:none;padding:0}
+    .card{break-inside:avoid;page-break-inside:avoid}
+    .themebtn{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <div>
+    <div class="vlogo">VNTG</div>
+    <div class="eyebrow">운영2센터 · AI 추진 TF Stage2</div>
+    <h1>진행현황 보고</h1>
+    <div class="sub">TF 기간 2026.06 ~ 2026.10 (5개월) · 3개월차 &nbsp;|&nbsp; Claude Code + 하네스 기반 직무 자동화 체계 구축</div>
+  </div>
+  <div class="meta">
+    보고일 <b>2026. 08. 10 (월)</b><br>
+    보고 <b>TF Leader 홍현기</b> → 팀장 → 센터장<br>
+    TF 인원 <b>10명</b> (조장 3 · 검증 6 · 리더 1)
+    <br><button class="themebtn" onclick="var r=document.documentElement;r.dataset.theme=r.dataset.theme==='dark'?'light':'dark'">라이트 / 다크 전환</button>
+  </div>
+</header>
+
+<!-- ============ 1. 한눈에 ============ -->
+<section class="card brandbar">
+  <div class="hero">
+    <div>
+      <div class="heronum">33<span>%</span></div>
+      <div class="herolabel">전체 가중 진척률 <span class="chip st-ser" style="margin-left:4px"><span class="dot"></span><span class="ico">▲</span>주의</span></div>
+      <div class="herofoot">기간 경과 46% (71/153일) 대비 <b style="color:var(--serious)">13%p 미달</b><br>
+      계획 대비 달성률 <b>67%</b> — 주 지연 요인은 <b>센터 하네스 표준화</b></div>
+    </div>
+    <div class="tiles">
+      <div class="tile">
+        <div class="tl">기초 교육자료</div>
+        <div class="tv" style="color:var(--good-ink)">80%</div>
+        <div class="td">61장 · 정상</div>
+      </div>
+      <div class="tile">
+        <div class="tl">하네스 교육자료</div>
+        <div class="tv" style="color:var(--good-ink)">60%</div>
+        <div class="td">42장 · 정상</div>
+      </div>
+      <div class="tile">
+        <div class="tl">센터 하네스 표준화</div>
+        <div class="tv" style="color:var(--crit)">30%</div>
+        <div class="td">지연 · 크리티컬 패스</div>
+      </div>
+      <div class="tile">
+        <div class="tl">잔여 기간</div>
+        <div class="tv">82<span style="font-size:13px;font-weight:600">일</span></div>
+        <div class="td">~ 2026.10.31</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ vReins 브랜드 ============ -->
+<div class="vr" style="margin-top:0;margin-bottom:14px">
+    <div class="vrh">
+      <div class="vrw">vReins</div>
+      <div class="vrt">AI-Guided Development Harness</div>
+    </div>
+    <div class="vrb">
+      <div class="slogan">"AI가 달리고, 당신이 방향을 잡습니다"</div>
+      <div class="slogan-en">Keep the reins. Automate the rest.</div>
+      <p><b>reins = 고삐.</b> 착수보고에서 하네스를 "말에게 채우는 마구"로 설명했던 그 비유를 브랜드로 확정한 것입니다.
+      완전 자동화 도구는 빠르지만 맥락을 놓치고 수동 개발은 정확하지만 반복이 많다 — <b>현실의 개발은 완전 자동화가 아니라 사람이 판단하는 자동화</b>라는 것이 vReins의 전제이며,
+      착수보고 목적의 "AI가 보조하는 단계에서 AI를 지휘하는 단계로 전환"과 정확히 같은 문장입니다.</p>
+      <div class="flow">
+        <span class="st">요구분석</span><span class="ar">→</span><span class="st">설계</span><span class="ar">→</span><span class="st">구현</span><span class="ar">→</span><span class="st">테스트</span><span class="ar">→</span><span class="st">배포</span>
+        <span style="font-weight:400;color:var(--muted);margin-left:4px">각 단계 사이에 개발자 확인·판단 체크포인트</span>
+      </div>
+      <div class="kv">
+        <b>핵심 기능</b><div>공통 하네스 스켈레톤 · 에이전트·서브에이전트 · 스킬·커맨드 · 핸드오프 · 가이드형 자동화(human-in-the-loop) · WIKI 자동 구축</div>
+        <b>WIKI</b><div>요구분석 문서·설계 결정·구현 근거·테스트 결과가 <b>단계 진행과 동시에</b> 구조화된 지식베이스로 자동 정리 (별도 정리 행위 불필요)</div>
+        <b>도입 효과</b><div>셋업 시간 단축 · 일관된 품질 · 통제 가능한 자동화 · 축적되는 조직 지식</div>
+      </div>
+      <div class="lnk">🔗 <a href="https://vreins.github.io/" target="_blank">vreins.github.io</a>
+        <span style="color:var(--muted)">— 05 표준화 구성의 <code>g-ai-working</code> · <code>g-wiki</code>가 이 브랜드의 실제 구현체입니다.</span></div>
+    </div>
+  </div>
+
+<!-- ============ 2. 과제별 진척 ============ -->
+<section class="card">
+  <h2><span class="n">01</span>과제별 진척 현황</h2>
+  <p class="hint">착수보고 산출물 계획 기준 · 2026.08.10 현재</p>
+  <div class="meters">
+    <div class="m">
+      <div class="mname">기초 교육자료 <small>Claude 기초 교육 ver2.0 · 61장 · 서영은</small></div>
+      <div class="mval" style="color:var(--good-ink)">80%</div>
+      <div class="track tg"><div class="fill" style="width:80%;background:var(--s3)"></div></div>
+      <div class="mnote">6개 장 구성 완료(소개·개념·Chat·Cowork·Code·마무리), 실습 시나리오 및 퀴즈까지 작성. <b>잔여:</b> 실습 화면 캡처 삽입, 중복 슬라이드 정리, 실습 데이터 최종 확정.</div>
+    </div>
+    <div class="m">
+      <div class="mname">하네스 교육자료 <small>클로드 코드 – 하네스 엔지니어링 교육 · 42장 · 이수종</small></div>
+      <div class="mval" style="color:var(--good-ink)">60%</div>
+      <div class="track tg"><div class="fill" style="width:60%;background:var(--s3)"></div></div>
+      <div class="mnote">하네스 9요소 실습 시나리오 및 실습 프로젝트(sicb-practice-starter) 확보. <b>잔여:</b> 실습 환경 사전 검증(DB·MCP), Plugin 실습 상세화, 강사 스크립트 및 조별 소요시간 배분.</div>
+    </div>
+    <div class="m">
+      <div class="mname">표준 교육자료 <small>표준화 설계서 확정 후 착수 · 박영민</small></div>
+      <div class="mval" style="color:var(--muted)">0%</div>
+      <div class="track tn"><div class="fill" style="width:2%;background:var(--muted)"></div></div>
+      <div class="mnote">표준화 산출물에 종속된 후속 과제. 표준화 지연이 그대로 전이되는 구조 → <b>8월 내 표준화 확정 시 9월 착수 가능</b>.</div>
+    </div>
+    <div class="m">
+      <div class="mname">센터 하네스 표준화 <small>표준화 설계서 · TF Leader + 조장 3인</small></div>
+      <div class="mval" style="color:var(--crit)">30%</div>
+      <div class="track tr"><div class="fill" style="width:30%;background:var(--crit)"></div></div>
+      <div class="mnote"><b>지연.</b> 팀별 직무 분석 착수 및 공통 CLAUDE.md·Docs 구조 초안 단계. <b>잔여:</b> 직무별 표준 SKILL 규격, WIKI 구조, 검토·승인 게이트 정의, 설계서 문서화. → 중간보고 및 표준 교육자료의 선행 조건.</div>
+    </div>
+    <div class="m">
+      <div class="mname">vReins 브랜드 · 소개 페이지 <small>계획 외 추가 산출물 · vreins.github.io</small></div>
+      <div class="mval" style="color:var(--s1)">100%</div>
+      <div class="track"><div class="fill" style="width:100%;background:var(--s1)"></div></div>
+      <div class="mnote">센터 표준 하네스를 <b>vReins</b>로 브랜딩하고 공개 소개 페이지를 개설. 착수보고 산출물 계획에 없던 추가 성과이므로 <b>전체 진척률(33%) 산정에는 포함하지 않음</b>. 표준을 대외적으로 설명할 수 있는 이름과 문서를 확보했다는 의미. ↑ 상단 vReins 소개 참조</div>
+    </div>
+  </div>
+  <div class="legend" style="margin-top:16px;margin-bottom:0">
+    <span class="li"><span class="sw" style="background:var(--s3)"></span>정상 진행</span>
+    <span class="li"><span class="sw" style="background:var(--crit)"></span>지연</span>
+    <span class="li"><span class="sw" style="background:var(--muted)"></span>미착수·대기</span>
+    <span class="li"><span class="sw" style="background:var(--track-g);border:1px solid var(--base)"></span>잔여 구간</span>
+  </div>
+
+</section>
+
+<!-- ============ 3. 일정 대비 ============ -->
+<section class="card">
+  <h2><span class="n">02</span>추진 일정 대비 현황</h2>
+  <p class="hint">착수보고 일정계획 기준 · 색 채움 = 실제 진행분, 옅은 구간 = 계획 잔여분</p>
+  <div class="tlwrap">
+  <table class="tl">
+    <thead>
+      <tr><th class="rowh">구분</th><th>6월</th><th>7월</th><th class="now">8월</th><th>9월</th><th>10월</th><th style="width:96px">판정</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="rowh">목표선정 / 착수</td>
+        <td colspan="1"><span class="bar" style="background:var(--s1)"><em>100%</em></span></td>
+        <td></td><td></td><td></td><td></td>
+        <td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>완료</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">센터 하네스 표준화</td>
+        <td></td>
+        <td colspan="2"><span class="bar" style="background:linear-gradient(90deg,var(--crit) 0 30%,var(--track-r) 30% 100%)"><em style="color:var(--ink2)">30%</em></span></td>
+        <td></td><td></td>
+        <td><span class="chip st-crit"><span class="dot"></span><span class="ico">▲</span>지연</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">교육자료 작성</td>
+        <td></td>
+        <td colspan="2"><span class="bar" style="background:linear-gradient(90deg,var(--s3) 0 47%,var(--track-g) 47% 100%)"><em style="color:var(--ink2)">47%</em></span></td>
+        <td></td><td></td>
+        <td><span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>일부지연</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">교육 실행</td>
+        <td></td><td></td><td></td>
+        <td colspan="2"><span class="bar plan"><em>계획 구간 (미도래)</em></span></td>
+        <td><span class="chip st-wait"><span class="dot"></span><span class="ico">·</span>대기</span></td>
+      </tr>
+      <tr>
+        <td class="rowh">정기회의 · 회의록</td>
+        <td colspan="3"><span class="bar" style="background:var(--s1)"><em>주 2회 정기회의 운영 중</em></span></td>
+        <td colspan="2"><span class="bar plan"></span></td>
+        <td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>정상</span></td>
+      </tr>
+      <tr>
+        <td class="rowh" style="color:var(--ink2);font-weight:600">마일스톤</td>
+        <td style="font-size:10.5px;color:var(--ink2);text-align:center">TF발족<br>조직구성<br>착수보고</td>
+        <td style="font-size:10.5px;color:var(--ink2);text-align:center">교육 커리큘럼<br>작성</td>
+        <td style="font-size:10.5px;color:var(--s2);text-align:center;font-weight:700">중간보고<br>(표준화 완료 후)</td>
+        <td style="font-size:10.5px;color:var(--ink2);text-align:center">기초교육<br>하네스 교육</td>
+        <td style="font-size:10.5px;color:var(--ink2);text-align:center">표준 교육<br>결과보고</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td class="rowh"></td><td></td><td></td>
+        <td class="nowline">▲ 現 2026.08.10</td>
+        <td></td><td></td><td></td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<!-- ============ 4. 목표 대비 ============ -->
+<section class="card">
+  <h2><span class="n">03</span>착수보고 목표 5개 대비 달성 현황</h2>
+  <p class="hint">착수보고 「3. 목표」 항목 기준</p>
+  <table class="d">
+    <thead>
+      <tr><th style="width:26px">#</th><th>목표</th><th style="width:78px">진척</th><th style="width:106px">상태</th><th>현재까지의 근거</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="num">1</td>
+        <td><b>센터 표준 하네스 구축</b><br><span class="who">직무 업무를 AI가 일관되게 수행하는 공통 규격</span></td>
+        <td class="num" style="color:var(--crit)">30%</td>
+        <td><span class="chip st-crit"><span class="dot"></span><span class="ico">▲</span>지연</span></td>
+        <td>팀별 직무 분석 착수, 공통 CLAUDE.md·Docs 구조 초안. 표준 SKILL 규격·WIKI 구조 미확정</td>
+      </tr>
+      <tr>
+        <td class="num">2</td>
+        <td><b>전 직원 기초 역량 확보</b><br><span class="who">Chat / Cowork / Code · CLI 기본 교육 이수</span></td>
+        <td class="num" style="color:var(--good-ink)">40%</td>
+        <td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>정상</span></td>
+        <td>교육자료 80% 완성(61장). 교육 실행은 9월 계획 — 일정상 미도래</td>
+      </tr>
+      <tr>
+        <td class="num">3</td>
+        <td><b>전원 하네스 구축 경험 확보</b><br><span class="who">하네스 직접 구축 실습 완료</span></td>
+        <td class="num" style="color:var(--good-ink)">30%</td>
+        <td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>정상</span></td>
+        <td>교육자료 60% + 실습 프로젝트 확보. 실습 환경(DB·MCP·Node.js) 사전 검증 필요</td>
+      </tr>
+      <tr>
+        <td class="num">4</td>
+        <td><b>표준 내재화</b><br><span class="who">표준 이해 및 개인 하네스의 표준 적용</span></td>
+        <td class="num" style="color:var(--muted)">0%</td>
+        <td><span class="chip st-wait"><span class="dot"></span><span class="ico">·</span>미착수</span></td>
+        <td>목표 1(표준화)에 종속. 표준화 설계서 확정 시 표준 교육자료 작성 즉시 착수</td>
+      </tr>
+      <tr>
+        <td class="num">5</td>
+        <td><b>성과 검증 및 자산화</b><br><span class="who">적용 전/후 업무 소요시간 비교, 우수 사례 공유</span></td>
+        <td class="num" style="color:var(--muted)">0%</td>
+        <td><span class="chip st-wait"><span class="dot"></span><span class="ico">·</span>미착수</span></td>
+        <td>10월 계획. <b>단, 측정 기준선(As-Is 소요시간)은 교육 실행 전에 수집해야 함</b> → 8월 중 착수 권고</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- ============ 5. 교육자료 내용 ============ -->
+<section class="card">
+  <h2><span class="n">04</span>교육자료 실제 내용</h2>
+  <p class="hint">교육자료 3종의 커리큘럼 구성과 실습 시나리오 — 상단 2종은 작성 완료분, 하단 1종은 작성 예정</p>
+  <div class="grid2">
+
+    <div class="doc">
+      <h3>Claude 기초 교육 <span class="chip st-good" style="margin-left:6px;font-size:10px"><span class="dot"></span>80%</span></h3>
+      <div class="dmeta">ver2.0 · 61장 · 2026.07.20 · PC2팀 서영은 &nbsp;|&nbsp; 대상: 전 직원</div>
+      <ol>
+        <li><b>Claude 소개</b> — 3가지 작업 방식(Chat·Cowork·Code) 비교, 모델 스펙트럼(Haiku→Sonnet→Opus→Fable), 접속 채널 4종, 에이전트 루프</li>
+        <li><b>개념 정리</b> — Skill(절차서) · MCP(외부 연결) · Hook(자동 규칙) · Sub Agent</li>
+        <li><b>Chat 실습 ①</b> — "주간 운영회의 준비" 시나리오: GMES 생산실적(2,424행) → KPI 산출 → 차트 → 인터랙티브 대시보드 → 경영진 보고서</li>
+        <li><b>Cowork 실습 ②</b> — 셋업 5단계, 프로젝트 구조(Instructions+Context+Skill), Weekly Review Skill 저장 → 매주 월 08:30 스케줄 자동화</li>
+        <li><b>Code 실습 ③</b> — 본인 프로젝트에서 <code>/init</code> → CLAUDE.md 생성 → 소스 구조·영향도 분석</li>
+        <li><b>마무리</b> — SKILL 하나 → 플러그인 → 마켓플레이스 성장 경로, 하네스 엔지니어링 관점, 확인 퀴즈</li>
+      </ol>
+      <div class="tags"><span class="tag">Chat</span><span class="tag">Cowork</span><span class="tag">Code</span><span class="tag">Skill</span><span class="tag">MCP</span><span class="tag">Schedule</span></div>
+      <div class="rest"><b>잔여 20%</b> — 실습 화면 캡처 삽입(다수 자리 표시자 상태) · 중복 슬라이드 정리 · 실습 데이터 최종 확정(리테일 샘플 → 사내 생산실적 데이터 전환 중)</div>
+    </div>
+
+    <div class="doc">
+      <h3>클로드 코드 – 하네스 엔지니어링 <span class="chip st-good" style="margin-left:6px;font-size:10px"><span class="dot"></span>60%</span></h3>
+      <div class="dmeta">42장 · 이수종 &nbsp;|&nbsp; 대상: TF 및 개발 직무 · 실습형</div>
+      <ol>
+        <li><b>실습 환경</b> — Node.js·Claude Code 설치, 실습 프로젝트 <code>sicb-practice-starter</code> (B라인 소재 추적: backend C# / frontend / logs / db)</li>
+        <li><b>기본 조작</b> — 플랜모드(Shift+Tab), 재시작 시점, 파일 생성 주의사항</li>
+        <li><b>하네스 9요소 실습</b> — CLAUDE.md(지침) → Docs(기록 누적) → MCP(실 DB 조회) → Skill+Command(<code>/db-usage</code>) → Sub Agent(병렬) → Hook(변경이력 자동기록 / 소스 수정 차단) → Handoff(인수인계) → Plugin(팀 배포)</li>
+        <li><b>관점</b> — "에이전트 = 모델(말) + 하네스(마구)", 실습을 진행할수록 개인 하네스가 완성되는 구성</li>
+      </ol>
+      <div class="tags"><span class="tag">CLAUDE.md</span><span class="tag">Docs</span><span class="tag">MCP</span><span class="tag">Skill</span><span class="tag">Command</span><span class="tag">Sub Agent</span><span class="tag">Hook</span><span class="tag">Handoff</span><span class="tag">Plugin</span></div>
+      <div class="rest"><b>잔여 40%</b> — 실습 환경 사전 검증(읽기전용 DB 계정·MCP 승인·사내 PC 설치 권한) · Plugin 실습 상세화 · 조별 진행 가이드와 소요시간 배분 · 강사 스크립트</div>
+    </div>
+  </div>
+
+  <div class="doc planned">
+    <h3>표준 교육 <span class="chip st-wait" style="margin-left:6px;font-size:10px"><span class="dot"></span>0% · 작성 예정</span></h3>
+    <div class="dmeta">담당 박영민 · 9월 작성/실행 예정 &nbsp;|&nbsp; 대상: 기초·하네스 교육 이수자 전원 &nbsp;|&nbsp; <b>교육 내용 = 센터 하네스 표준화 산출물</b></div>
+    <p style="margin:0 0 10px;font-size:12px;color:var(--ink2)">8월에 확정되는 <b>표준화 설계서</b>를 그대로 교육 콘텐츠로 전환하는 과정입니다. 하네스 교육에서 각자 만든 개인 하네스를 센터 표준에 맞춰 정렬하는 것이 최종 목표(목표 4 · 표준 내재화)입니다.</p>
+    <ol>
+      <li><b>센터 표준 하네스 구성 기준</b> — 왜 표준이 필요한가, 개인 하네스와 센터 표준의 관계</li>
+      <li><b>공통 CLAUDE.md 규격</b> — 센터 공통 지침 항목과 팀·직무별 확장 규칙</li>
+      <li><b>직무별 표준 SKILL 규격</b> — 표준 작업 지시서 작성 규칙(입력·절차·산출물 정의)</li>
+      <li><b>Docs · WIKI 구조</b> — 산출물 저장 규칙(reviews·domain·plans·manuals), 팀 지식 축적 규칙</li>
+      <li><b>검토 · 승인 게이트</b> — Ask → Plan → Edit → Close 단계별 검토·승인 기준(청사진 기준)</li>
+      <li><b>개인 하네스의 표준 적용 실습</b> — 하네스 교육 산출물을 센터 표준 규격으로 정렬</li>
+      <li><b>Plugin 배포</b> — 표준 하네스를 플러그인으로 묶어 센터 전체에 설치·공유</li>
+    </ol>
+    <div class="pre">선행 조건 — 센터 하네스 표준화 설계서 확정(8월). 미확정 시 9월 작성·10월 교육 실행이 그대로 지연됩니다.</div>
+  </div>
+</section>
+
+<!-- ============ 6. 표준화 구성 ============ -->
+<section class="card">
+  <h2><span class="n">05</span>센터 하네스 표준화 구성</h2>
+  <p class="hint">사내 GitLab(vreins) 저장소 2종 기준 — 착수보고 청사진의 하네스 요소가 실제로 어떤 형태로 구축돼 있는지</p>
+
+  <div class="doc" style="background:var(--track);border-color:var(--s1);border-left:3px solid var(--s1);margin-bottom:14px">
+    <div style="font-size:12.5px"><b>핵심 설계 원칙 — 로직 · 데이터 분리</b><br>
+    <span style="color:var(--ink2)">로직(방법론·스킬·훅)은 <b>플러그인</b>으로 배포한다. 설치본은 읽기 전용 캐시라 업데이트 때 덮어써지므로, 지식은 <b>쓰기 가능한 별도 git 저장소</b>로 두고 작업 폴더에 중첩한다. → 표준은 유지보수자가 관리하고, 지식은 팀 누구나 쌓는 구조.</span></div>
+  </div>
+
+  <div class="grid2">
+    <div class="doc">
+      <h3>g-ai-working <span class="chip st-info" style="margin-left:6px;font-size:10px"><span class="dot"></span>로직 · 표준</span></h3>
+      <div class="dmeta">Claude Code 플러그인 마켓플레이스 v0.19.3 &nbsp;|&nbsp; 유지보수자만 push &nbsp;|&nbsp; <code>/plugin install</code>로 배포</div>
+      <table class="d" style="font-size:11.5px">
+        <thead><tr><th style="width:104px">플러그인</th><th>구성</th><th style="width:70px">대상</th></tr></thead>
+        <tbody>
+          <tr><td><b>g-harness</b><br><span class="who">0.10.0</span></td>
+              <td>방법론 — behavior(행동규칙 8종) · context(언어정책) · pattern(handoff·스킬작성) + SessionStart 훅</td>
+              <td class="who">전원 상시</td></tr>
+          <tr><td><b>g-skills</b><br><span class="who">0.5.0</span></td>
+              <td>공통 스킬 — handoff(show·write) · git(pull·commit, 두-repo 라우팅) · overview(create·verify)</td>
+              <td class="who">전원</td></tr>
+          <tr><td><b>g-wiki-tools</b><br><span class="who">0.4.0</span></td>
+              <td>지식 도구 4-동사 — save(수집) · ingest(정식화) · query(출처 인용·환각 금지) · lint(건강검진)</td>
+              <td class="who">지식 사용자</td></tr>
+          <tr><td><b>g-srs-flow</b><br><span class="who">0.11.3</span></td>
+              <td>SRS 워크플로 — ask → plan → edit → close + red team 검증 게이트 verify, 공용 하위층 srs-orient</td>
+              <td class="who">개발 직무</td></tr>
+        </tbody>
+      </table>
+      <div class="tags"><span class="tag">marketplace.json</span><span class="tag">docs/adr 31건</span><span class="tag">docs/architecture</span><span class="tag">mcp/oracle-mes</span></div>
+    </div>
+
+    <div class="doc">
+      <h3>g-wiki <span class="chip st-good" style="margin-left:6px;font-size:10px"><span class="dot"></span>데이터 · 지식</span></h3>
+      <div class="dmeta">팀 지식창고 &nbsp;|&nbsp; 팀 누구나 push &nbsp;|&nbsp; 평문 마크다운 + 위키링크(Obsidian 그래프뷰)</div>
+      <ol style="font-size:11.5px">
+        <li><b>domain/</b> — 도메인 하나 = 팀·시스템 하나. 도메인마다 지켜야 할 규칙이 달라 여기서 갈린다<br>
+          <span class="who">└ knowledge(아는 것) · rules(지키는 것) · modules(맡은 것: overview + srs + troubleshooting) · meetings · closing</span></li>
+        <li><b>_inbox/</b> — 원자료 수집함. 분류를 고민하다 안 남기는 것보다 일단 담고 <code>wiki-ingest</code>로 제자리를 찾는다</li>
+        <li><b>handbook/</b> — 모듈 경계를 넘는 시스템 전체 매뉴얼 (비개발자도 읽는 수준)</li>
+        <li><b>_feedback/</b> — 표준·구조 개선 요청이 유지보수자에게 가는 창구</li>
+      </ol>
+      <div class="rest"><b>지식이 쌓이는 3경로</b> — ① 워크플로 산출물(일하면 자동으로 쌓임) · ② 자유 수집(save → ingest) · ③ 꺼내 쓰기(query · lint).
+      <b>편집 정책</b> — 기록(SRS·트러블슈팅·회의록 본문)은 불변, 안내(readme·링크)는 언제든 수리.</div>
+    </div>
+  </div>
+
+  <h3 style="margin:18px 0 4px;font-size:13px;font-weight:700">착수보고 청사진 ↔ 실제 구축물 대응</h3>
+  <p class="hint" style="margin-bottom:10px">착수보고 「6. 청사진」에 그린 하네스 9요소가 실물로 어디에 구현됐는지</p>
+  <table class="d">
+    <thead><tr><th style="width:150px">청사진 하네스 요소</th><th>실제 구축물</th><th style="width:82px">상태</th></tr></thead>
+    <tbody>
+      <tr><td><b>CLAUDE.MD</b> <span class="who">업무 매뉴얼 개요</span></td><td>저장소 <code>CLAUDE.md</code> + g-harness의 behavior·context (상시 행동규칙 주입)</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>SKILL</b> <span class="who">표준 작업 지시서</span></td><td>스킬 16종 — srs 6 · wiki 4 · handoff 2 · git 2 · overview 2</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>Command</b> <span class="who">단축기능</span></td><td>슬래시 커맨드 — <code>/srs-ask</code> <code>/srs-plan</code> <code>/wiki-query</code> 등</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>MCP</b> <span class="who">연관 시스템 연결</span></td><td>로컬 서버 <code>oracle-mes</code>(읽기전용 MES Oracle) + 커넥터 3종(Atlassian · Gmail · Drive)</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>Sub Agent</b> <span class="who">업무별 담당자</span></td><td><code>srs-verify</code> — "만든 놈과 다른 놈이 깐다". 별도 서브에이전트가 체크리스트로 산출물 검증</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>Hook</b> <span class="who">트리거·이벤트</span></td><td>SessionStart(HANDOFF 진행표 렌더) · UserPromptSubmit(지식 조회 환기)</td><td><span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>일부</span></td></tr>
+      <tr><td><b>Handoff</b> <span class="who">AI 인수인계</span></td><td>루트 단일 <code>HANDOFF.md</code> — 진행 중/대기 표, 세션 시작 시 자동 렌더</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>WIKI</b> <span class="who">팀 지식 창고<br>(착수보고 표기: KMS)</span></td><td><code>g-wiki</code> 저장소 — 도메인·모듈 축의 4성격 구조</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+      <tr><td><b>Plugin</b> <span class="who">설치형 업무 키트</span></td><td>마켓플레이스 등록 + 플러그인 4종 설치 — clone 2회 + install 4줄로 신규 인원 온보딩</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>구축</span></td></tr>
+    </tbody>
+  </table>
+
+  <h3 style="margin:18px 0 4px;font-size:13px;font-weight:700">진척 30%의 근거 — 도메인 확산 상태</h3>
+  <p class="hint" style="margin-bottom:10px">공통 로직(플러그인·훅·ADR)은 구축 완료. <b>센터 표준</b>이 되려면 4개 도메인 전체에 적용돼야 하며, 현재 운영 중은 1개</p>
+  <table class="d">
+    <thead><tr><th style="width:96px">도메인</th><th>대상 시스템</th><th style="width:66px">소속</th><th style="width:96px">형상관리</th><th style="width:82px">상태</th></tr></thead>
+    <tbody>
+      <tr><td><b>mes</b></td><td>특수강 MES (군산 S*** · 창녕 K***)</td><td class="who">MES팀</td><td class="who">TFS</td><td><span class="chip st-good"><span class="dot"></span><span class="ico">✓</span>운영 중</span></td></tr>
+      <tr><td><b>lv2</b></td><td>LV2 — 설비 제어 상위 시스템</td><td class="who">PC팀</td><td class="who">TFS</td><td><span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>준비 중</span></td></tr>
+      <tr><td><b>platform</b></td><td>플랫폼 (web / app)</td><td class="who">PC팀</td><td class="who">git (사내)</td><td><span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>준비 중</span></td></tr>
+      <tr><td><b>sap</b></td><td>SAP — 전사 ERP</td><td class="who">ERP팀</td><td class="who">미정</td><td><span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>준비 중</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="doc" style="margin-top:14px;background:var(--surface2)">
+    <div style="font-size:12.5px;font-weight:700;margin-bottom:6px">잔여 과제 (30% → 100%)</div>
+    <ol style="font-size:11.8px;columns:2;column-gap:26px">
+      <li><b>3개 도메인 규약 확정</b> — 요청 식별자 체계 · 작업 대상 지정 방식 · 산출물 경로 · 종료 조건이 mes에만 있음</li>
+      <li><b>SRS 흐름 범용화</b> — 현재 경로만 도메인화되고 절차는 MES 전용. 도메인을 데이터로 분리하는 후속 과제</li>
+      <li><b>도메인별 rules 작성</b> — lv2·platform·sap의 <code>rules/</code>가 비어 있어 참조할 규칙이 없음</li>
+      <li><b>단위테스트결과서 템플릿</b> — mes 외 도메인에 템플릿·생성 스크립트 미비</li>
+      <li><b>handbook 착수</b> — 시스템 전체 매뉴얼은 작성 방식·템플릿 결정이 선행 과제</li>
+      <li><b>표준화 설계서 정본화</b> — 현재 표준은 저장소 내 ADR·README로만 존재. <b>센터 승인 문서 형태로 정리 필요(8월)</b></li>
+    </ol>
+    <div class="pre">설계 근거는 ADR 31건으로 관리 — 채택된 결정은 고치지 않고 새 ADR로 대체(append-only)해 "왜 그렇게 정했는지"의 역사를 보존한다.</div>
+  </div>
+</section>
+
+<!-- ============ 7. 이슈 ============ -->
+<section class="card">
+  <h2><span class="n">06</span>이슈 및 지원 요청</h2>
+  <p class="hint">센터장 의사결정 · 지원이 필요한 항목</p>
+  <div class="iss">
+    <div class="row">
+      <div class="no">1</div>
+      <div>
+        <div class="t">센터 하네스 표준화 지연 (30%) <span class="chip st-crit"><span class="dot"></span><span class="ico">▲</span>긴급</span></div>
+        <div class="b">표준화 설계서가 <b>중간보고 · 표준 교육자료 · 목표 4(표준 내재화)</b>의 선행 조건. 현재 속도 유지 시 9월 교육 실행 일정까지 연쇄 지연. 조장 3인이 팀 업무와 병행하며 직무 분석에 투입되는 구조가 주 원인.</div>
+      </div>
+      <div class="ask"><b>요청</b>8월 중 표준화 집중 기간 지정 및 조장 업무 조정 승인</div>
+    </div>
+    <div class="row">
+      <div class="no">2</div>
+      <div>
+        <div class="t">실습 환경 사전 확보 <span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>경고</span></div>
+        <div class="b">하네스 교육은 실 DB 조회(MCP) 실습이 핵심. <b>읽기전용 DB 계정</b>과 사내 PC의 <b>Node.js·npm 설치 권한</b>이 필요하며, 교육 당일 차단 시 실습 자체가 불가.</div>
+      </div>
+      <div class="ask"><b>요청</b>정보보안·인프라 부서 협조 (8월 내 확정)</div>
+    </div>
+    <div class="row">
+      <div class="no">3</div>
+      <div>
+        <div class="t">교육 실행 슬롯 확보 <span class="chip st-info"><span class="dot"></span><span class="ico">i</span>협의</span></div>
+        <div class="b">9~10월 전 직원 대상 교육. 기초 교육과 하네스 실습은 성격·소요시간이 달라 분리 편성이 필요하고, 팀별 업무 일정과 충돌 가능.</div>
+      </div>
+      <div class="ask"><b>요청</b>팀장 협의로 교육 일자 사전 확정</div>
+    </div>
+    <div class="row">
+      <div class="no">4</div>
+      <div>
+        <div class="t">성과 측정 기준선 미수집 <span class="chip st-ser"><span class="dot"></span><span class="ico">!</span>경고</span></div>
+        <div class="b">목표 5는 "적용 전/후 업무 소요시간 비교". <b>교육 전 As-Is 소요시간을 수집하지 않으면 10월에 성과 입증이 불가능.</b> 반복 직무 3~5종을 선정해 8월 중 기준선 측정 착수 필요.</div>
+      </div>
+      <div class="ask"><b>요청</b>대상 직무 선정 및 측정 방식 승인</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 8. 향후 계획 ============ -->
+<section class="card">
+  <h2><span class="n">07</span>향후 일정 계획</h2>
+  <p class="hint">잔여 82일 · 결과보고(10월)까지의 실행 계획</p>
+  <div class="plan3">
+    <div class="mo">
+      <div class="mh"><div class="mm">8월</div><span class="chip st-crit"><span class="dot"></span><span class="ico">▲</span>최우선</span></div>
+      <ul>
+        <li>센터 하네스 표준화 설계서 완성 <small>30% → 100% · 표준 SKILL 규격, WIKI 구조, 검토·승인 게이트</small></li>
+        <li>기초 교육자료 확정 <small>80% → 100% · 캡처 삽입, 슬라이드 정리</small></li>
+        <li>하네스 교육자료 확정 <small>60% → 100% · 실습 환경 검증, 강사 스크립트</small></li>
+        <li>성과 측정 기준선 수집 착수 <small>반복 직무 3~5종 As-Is 소요시간</small></li>
+      </ul>
+      <div class="gate">GATE — 표준화 설계 완료 후 <b>중간보고</b></div>
+    </div>
+    <div class="mo">
+      <div class="mh"><div class="mm">9월</div><span class="chip st-info"><span class="dot"></span><span class="ico">i</span>실행</span></div>
+      <ul>
+        <li>표준 교육자료 작성 <small>담당 박영민 · 표준화 설계서 기반 · 0% → 100%</small></li>
+        <li>교육 계획서 확정 <small>차수·대상·일정·교육 참여 확인서 양식</small></li>
+        <li>기초 교육 실행 <small>전 직원 · Chat·Cowork·Code 실습 3종</small></li>
+        <li>하네스 교육 실행 <small>조별 실습 · 개인 하네스 구축</small></li>
+      </ul>
+      <div class="gate">전 직원 기초 역량 확보 (목표 2·3)</div>
+    </div>
+    <div class="mo">
+      <div class="mh"><div class="mm">10월</div><span class="chip st-wait"><span class="dot"></span><span class="ico">·</span>마무리</span></div>
+      <ul>
+        <li>표준 교육 실행 <small>표준 적용 및 개인 하네스 정렬 (목표 4)</small></li>
+        <li>성과 검증 <small>적용 전/후 소요시간 비교 · 우수 사례 발굴</small></li>
+        <li>자산화 <small>하네스·WIKI 정리, 플러그인 형태로 센터 배포</small></li>
+        <li>결과보고서 작성 및 보고</li>
+      </ul>
+      <div class="gate">GATE — 교육 완료 후 <b>결과보고</b></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  ※ 진척률 산정 기준 — 가중치: 목표선정·착수 10% / 센터 하네스 표준화 30% / 교육자료 작성 30% / 교육 실행 25% / 성과검증·자산화 5%.
+  「계획 대비 달성률」은 8월 10일 시점 계획 진척(49%) 대비 실제 진척(33%)의 비율.<br>
+  ※ 근거 자료 — <b>vreins.github.io</b>(브랜드 소개) · 사내 GitLab <b>vreins/g-ai-working</b>(마켓플레이스 v0.19.3 · ADR 31건) · <b>vreins/g-wiki</b>(지식 저장소) · 0110_착수_AITF_Stage2_착수보고.pptx(12장) · Claude 기초 교육 ver2.0.pptx(61장) · 클로드 코드 - 하네스 엔지니어링 교육.pptx(42장) · sicb-practice-starter.zip<br>
+  ※ 상황에 따라 산출물 및 일정은 변경될 수 있습니다. (착수보고 명기 사항)
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--grid);text-align:center"><span style="font-weight:700;color:var(--s1);letter-spacing:1px">VNTG</span> <span style="color:var(--muted)">브이엔티지 · CONTACT@VNTGCORP.COM</span></div>
+</footer>
+
+</div>
+</body>
+</html>
